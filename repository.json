@@ -1,8 +1,18 @@
 {
-  "name": "Filmizledur Reposu",
-  "description": "filmizledur.net sitesi için Cloudstream sağlayıcısı.",
-  "version": 1,
-  "pluginLists": [
-    "https://raw.githubusercontent.com/djmaster35/cs-filmizledur/main/FilmizledurProviderV2.js"
+  "formatVersion": 1,
+  "name": "CS Filmizledur",
+  "description": "Filmizledur provider",
+  "icon": "https://filmizledur.net/favicon.ico",
+  "plugins": [
+    {
+      "name": "Filmizledur",
+      "id": "com.djmaster35.filmizledur",
+      "version": 1,
+      "versionName": "0.1.0",
+      "url": "https://github.com/djmaster35/cs-filmizledur/releases/download/v0.1.0/Filmizledur-v0.1.0.cs3",
+      "langs": ["tr"],
+      "tvTypes": ["Movie"],
+      "minApi": 3
+    }
   ]
 }
