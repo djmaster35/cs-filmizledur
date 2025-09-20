@@ -1,0 +1,8 @@
+{
+  "name": "Filmizledur Reposu",
+  "description": "filmizledur.net sitesi için Cloudstream sağlayıcısı.",
+  "version": 1,
+  "pluginLists": [
+    "https://raw.githubusercontent.com/djmaster35/cs-filmizledur/main/FilmizledurProvider.js"
+  ]
+}
