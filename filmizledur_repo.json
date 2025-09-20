@@ -1,0 +1,12 @@
+{
+  "name": "FilmIzleDur",
+  "version": 1,
+  "url": "https://filmizledur.net/",
+  "language": "tr",
+  "icon": "https://filmizledur.net/favicon.ico",
+  "categories": [
+    "movies",
+    "series"
+  ],
+  "status": "active"
+}
