@@ -1,18 +1,26 @@
 {
-  "formatVersion": 1,
-  "name": "CS Filmizledur",
-  "description": "Filmizledur provider",
-  "icon": "https://filmizledur.net/favicon.ico",
-  "plugins": [
+  "name": "Filmizle Dur Repo",
+  "author": "djmaster35",
+  "description": "HDFilmCehennemi için CloudStream 3 provider",
+  "version": 1,
+  "language": "tr",
+  "extensions": [
     {
-      "name": "Filmizledur",
-      "id": "com.djmaster35.filmizledur",
-      "version": 1,
-      "versionName": "0.1.0",
-      "url": "https://github.com/djmaster35/cs-filmizledur/releases/download/v0.1.0/Filmizledur-v0.1.0.cs3",
-      "langs": ["tr"],
-      "tvTypes": ["Movie"],
-      "minApi": 3
+      "name": "HDFilmCehennemi",
+      "description": "Türkçe film ve dizi içerikleri",
+      "versionCode": 1,
+      "url": "https://raw.githubusercontent.com/djmaster35/cs-filmizledur/main/FilmizledurProvider.js",
+      "extType": 1,
+      "hasTrailers": false,
+      "hasChromecast": false,
+      "hasDownload": true,
+      "hasP2P": false,
+      "hasRandom": true,
+      "hasSearch": true,
+      "hasSettings": false,
+      "hasSync": false,
+      "iconUrl": "https://i.imgur.com/7eXhQZk.png",
+      "language": "tr"
     }
   ]
 }
