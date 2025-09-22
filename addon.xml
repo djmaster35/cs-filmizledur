@@ -1,1 +1,19 @@
-
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="plugin.video.filmizledur"
+       name="Filmizle Dur"
+       version="1.0.0"
+       provider-name="djmaster35">
+    <requires>
+        <import addon="script.module.requests" version="2.25.1" />
+        <import addon="script.module.beautifulsoup4" version="4.9.3" />
+    </requires>
+    <extension point="xbmc.python.pluginsource"
+               library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary>HDFilmCehennemi üzerinden film ve dizi izle</summary>
+        <description>Film ve dizi içeriklerini HDFilmCehennemi'den çeker.</description>
+        <platform>all</platform>
+    </extension>
+</addon>
