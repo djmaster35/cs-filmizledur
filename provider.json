@@ -1,1 +1,22 @@
-
+{
+  "name": "Filmizle Dur",
+  "baseUrl": "https://www.hdfilmcehennemi.date",
+  "searchable": true,
+  "categories": [
+    {
+      "id": "filmler",
+      "name": "Filmler",
+      "url": "/filmler"
+    },
+    {
+      "id": "diziler",
+      "name": "Diziler",
+      "url": "/diziler"
+    },
+    {
+      "id": "yeni",
+      "name": "Yeni Eklenenler",
+      "url": "/yeni-filmler"
+    }
+  ]
+}
