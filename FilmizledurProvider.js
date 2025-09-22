@@ -62,7 +62,7 @@ class FilmizledurProvider {
 
         return {
             currentPage: page,
-            hasNextPage: $('.pagination .next, .pagination a:contains("Sonraki")').length > 0,
+            hasNextPage: $('.pagination .next, .pagination a:contains("Sonraki"), .pagination a:contains("Next")').length > 0,
             list: items
         };
     }
@@ -72,6 +72,7 @@ class FilmizledurProvider {
         let $ = cheerio.load(res.body);
         let sources = [];
 
+        // iframe kaynakları
         $('iframe').each((i, el) => {
             let src = $(el).attr('src');
             if (src && src.includes('http')) {
@@ -83,6 +84,7 @@ class FilmizledurProvider {
             }
         });
 
+        // script içindeki file: "..." kaynaklar
         $('script').each((i, el) => {
             if (!el.children || !el.children[0]) return;
             let scriptContent = el.children[0].data;
@@ -101,6 +103,7 @@ class FilmizledurProvider {
             }
         });
 
+        // video tag kaynakları
         $('video source, video').each((i, el) => {
             let src = $(el).attr('src') || $(el).attr('data-src');
             if (src && src.startsWith('http')) {
