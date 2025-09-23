@@ -1,168 +1,44 @@
-class FilmizledurProvider {
-    constructor() {
-        this.name = 'HDFilmCehennemi';
-        this.url = 'https://www.hdfilmcehennemi.date';
-        this.lang = 'tr';
-        this.type = 'movie';
-        this.quality = 'HD';
-        this.categorized = true;
-        this.filterable = true;
-    }
+// ==Cloudstream==
+// @name        HdfilmCehennemi
+// @description HdfilmCehennemi.site için Cloudstream eklentisi
+// @author      djmaster35
+// @language    tr
+// @version     1.0.0
+// @icon        https://www.hdfilmcehennemi.date/wp-content/uploads/logo.png
+// @website     https://www.hdfilmcehennemi.date/
+// ==/Cloudstream==
 
-    async getFilters() {
-        return {
-            "categories": [
-                {
-                    "name": "Kategori",
-                    "type": "SELECT",
-                    "values": [
-                        { "id": "/filmler", "name": "Filmler" },
-                        { "id": "/diziler", "name": "Diziler" },
-                        { "id": "/yeni-filmler", "name": "Yeni Eklenenler" }
-                    ]
-                }
-            ]
-        };
-    }
-
-    async scrapeCategory(category, page = 1) {
-        let url = this.url + category + (page > 1 ? `/page/${page}` : '');
-        let res = await this.request(url);
-        let items = [];
-
-        let $ = cheerio.load(res.body);
-
-        $('.item, .film, .movie, [class*="col-"], .post').each((i, el) => {
-            let titleEl = $(el).find('h2 a, h3 a, .title a, .name a, a[title]').first();
-            let imgEl = $(el).find('img').first();
-            let linkEl = $(el).find('a').first();
-
-            if (!titleEl.length || !linkEl.length) return;
-
-            let title = titleEl.text().trim();
-            let href = linkEl.attr('href');
-            if (!href.startsWith('http')) {
-                href = href.startsWith('/') ? this.url + href : this.url + '/' + href;
-            }
-
-            let thumb = '';
-            if (imgEl.length) {
-                thumb = imgEl.attr('data-src') || imgEl.attr('src') || '';
-                if (thumb.startsWith('//')) thumb = 'https:' + thumb;
-                else if (thumb.startsWith('/')) thumb = this.url + thumb;
-            }
-
-            items.push({
-                name: title,
-                url: href,
-                image: thumb,
-                type: 'movie'
-            });
-        });
-
-        return {
-            currentPage: page,
-            hasNextPage: $('.pagination .next, .pagination a:contains("Sonraki"), .pagination a:contains("Next")').length > 0,
-            list: items
-        };
-    }
-
-    async scrapeMovie(url) {
-        let res = await this.request(url);
-        let $ = cheerio.load(res.body);
-        let sources = [];
-
-        // iframe kaynakları
-        $('iframe').each((i, el) => {
-            let src = $(el).attr('src');
-            if (src && src.includes('http')) {
-                sources.push({
-                    url: src,
-                    quality: 'HD',
-                    isM3U8: false
+function search(query) {
+    return fetch(`https://www.hdfilmcehennemi.date/?s=${encodeURIComponent(query)}`)
+        .then(res => res.text())
+        .then(html => {
+            const results = [];
+            const regex = /<div class="poster">.*?<a href="(.*?)".*?title="(.*?)".*?<img.*?src="(.*?)"/gs;
+            let match;
+            while ((match = regex.exec(html)) !== null) {
+                results.push({
+                    title: match[2],
+                    url: match[1],
+                    poster: match[3]
                 });
             }
+            return results;
         });
-
-        // script içindeki file: "..." kaynaklar
-        $('script').each((i, el) => {
-            if (!el.children || !el.children[0]) return;
-            let scriptContent = el.children[0].data;
-            if (!scriptContent) return;
-
-            let fileMatches = scriptContent.matchAll(/file\s*:\s*["']([^"']+)/g);
-            for (let match of fileMatches) {
-                let fileUrl = match[1];
-                if (fileUrl.startsWith('http') && !fileUrl.endsWith('.js')) {
-                    sources.push({
-                        url: fileUrl,
-                        quality: 'HD',
-                        isM3U8: fileUrl.includes('.m3u8')
-                    });
-                }
-            }
-        });
-
-        // video tag kaynakları
-        $('video source, video').each((i, el) => {
-            let src = $(el).attr('src') || $(el).attr('data-src');
-            if (src && src.startsWith('http')) {
-                sources.push({
-                    url: src,
-                    quality: 'HD',
-                    isM3U8: src.includes('.m3u8')
-                });
-            }
-        });
-
-        return {
-            sources: sources,
-            subtitles: []
-        };
-    }
-
-    async search(query, page = 1) {
-        let searchUrl = `${this.url}/?s=${encodeURIComponent(query)}`;
-        let res = await this.request(searchUrl);
-        let $ = cheerio.load(res.body);
-        let items = [];
-
-        $('.item, .film, .movie, [class*="col-"], .post').each((i, el) => {
-            let titleEl = $(el).find('h2 a, h3 a, .title a, .name a, a[title]').first();
-            let imgEl = $(el).find('img').first();
-            let linkEl = $(el).find('a').first();
-
-            if (!titleEl.length || !linkEl.length) return;
-
-            let title = titleEl.text().trim();
-            let href = linkEl.attr('href');
-            if (!href.startsWith('http')) {
-                href = href.startsWith('/') ? this.url + href : this.url + '/' + href;
-            }
-
-            let thumb = '';
-            if (imgEl.length) {
-                thumb = imgEl.attr('data-src') || imgEl.attr('src') || '';
-                if (thumb.startsWith('//')) thumb = 'https:' + thumb;
-                else if (thumb.startsWith('/')) thumb = this.url + thumb;
-            }
-
-            items.push({
-                name: title,
-                url: href,
-                image: thumb,
-                type: 'movie'
-            });
-        });
-
-        return {
-            currentPage: page,
-            hasNextPage: false,
-            list: items
-        };
-    }
 }
 
-if (typeof module !== 'undefined') {
-    module.exports = FilmizledurProvider;
+function details(url) {
+    return fetch(url)
+        .then(res => res.text())
+        .then(html => {
+            const videoMatch = html.match(/src="([^"]*\.mp4[^"]*)"/);
+            return {
+                streams: videoMatch ? [{url: videoMatch[1], quality: "720p"}] : [],
+                title: html.match(/<title>(.*?)<\/title>/)?.[1] || "",
+                poster: html.match(/property="og:image" content="(.*?)"/)?.[1] || ""
+            };
+        });
 }
+
+// Cloudstream API gibi yükleme örneği (genellikle framework otomatik algılar)
+// exports.search = search;
+// exports.details = details;
