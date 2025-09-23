@@ -1,0 +1,31 @@
+// CloudStream eklenti şablonu - Filmizledur için
+module.exports = {
+    name: "Filmizledur",
+    description: "filmizledur.com için CloudStream eklentisi",
+    version: "1.0.0",
+    author: "djmaster35",
+    language: "tr",
+    domains: ["filmizledur.com"],
+    // Arama fonksiyonu
+    search: async function(query) {
+        const url = `https://filmizledur.com/?s=${encodeURIComponent(query)}`;
+        const res = await this.request(url);
+        const items = [];
+        // Örnek parse işlemi (gerçek HTML parse işlemi eklenmeli)
+        // res içindeki HTML'den film adlarını, linklerini ve posterlerini çek
+        // items.push({title: "Film Adı", url: "Film Linki", poster: "Poster Linki"});
+        return items;
+    },
+    // Detay sayfası fonksiyonu
+    detail: async function(item) {
+        const res = await this.request(item.url);
+        // Film detaylarını ve video kaynaklarını parse et
+        const sources = [];
+        // sources.push({url: "Video Linki", name: "Player Adı"});
+        return {
+            title: item.title,
+            poster: item.poster,
+            sources: sources
+        };
+    }
+};
