@@ -1,14 +1,14 @@
 {
   "name": "HdfilmCehennemi",
-  "description": "Cloudstream için HdfilmCehennemi eklenti deposu.",
+  "description": "Cloudstream için Hdfilmcehennemi.date eklenti deposu.",
   "maintainer": "djmaster35",
   "icon": "https://www.hdfilmcehennemi.date/wp-content/uploads/logo.png",
   "plugins": [
     {
       "name": "HdfilmCehennemi",
       "filename": "HdfilmCehennemi.js",
-      "description": "HdfilmCehennemi Cloudstream eklentisi.",
-      "version": "1.0.0"
+      "description": "Hdfilmcehennemi.date Cloudstream eklentisi.",
+      "version": "1.0.1"
     }
   ]
 }
